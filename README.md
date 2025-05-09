@@ -11,6 +11,11 @@ The application consists of:
 3. **Prometheus Integration** - Metrics collection and storage
 4. **Grafana Dashboard** - Visualization with drill-down capabilities for business insights
 
+## System architecture
+
+![System Architecture](Architecture.png)
+
+
 ## Components
 
 ### API Service
