@@ -3,7 +3,7 @@ version: '3.8'
 services:
   # Node.js e-commerce API service
   ecommerce-api:
-    build: .
+    image: sulaw/vaued-ecom:latest
     container_name: ecommerce-api
     ports:
       - "3000:3000"
