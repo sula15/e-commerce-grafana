@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaued-ecom
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vaued-ecom
+  template:
+    metadata:
+      labels:
+        app: vaued-ecom
+    spec:
+      containers:
+      - name: vaued-ecom
+        image: sulaw/vaued-ecom:latest
+        ports:
+        - containerPort: 3000
