@@ -8,15 +8,15 @@ groups:
     rules:
       - uid: high_response_time
         title: High API Response Time
-        condition: C
+        condition: B
         data:
           - refId: A
             relativeTimeRange:
               from: 600
               to: 0
-            datasourceUid: ${DS_PROMETHEUS}
+            datasourceUid: PBFA97CFB590B2093
             model:
-              expr: rate(http_request_duration_seconds_sum[5m]) / rate(http_request_duration_seconds_count[5m]) > 0.5
+              expr: sum(http_request_duration_seconds_sum) / sum(http_request_duration_seconds_count) > 0.5
               intervalMs: 1000
               maxDataPoints: 43200
               refId: A
@@ -26,38 +26,10 @@ groups:
               to: 0
             datasourceUid: __expr__
             model:
-              conditions:
-                - evaluator:
-                    params: []
-                    type: gt
-                  operator:
-                    type: and
-                  query:
-                    params: [A]
-                  reducer:
-                    params: []
-                    type: last
-                  type: query
+              expression: A
               refId: B
-          - refId: C
-            relativeTimeRange:
-              from: 600
-              to: 0
-            datasourceUid: __expr__
-            model:
-              conditions:
-                - evaluator:
-                    params: [0]
-                    type: gt
-                  operator:
-                    type: and
-                  query:
-                    params: [B]
-                  reducer:
-                    params: []
-                    type: last
-                  type: query
-              refId: C
+              type: reduce
+              reducer: last
         noDataState: NoData
         execErrState: Error
         for: 5m
@@ -69,15 +41,15 @@ groups:
           
       - uid: high_error_rate
         title: High API Error Rate
-        condition: C
+        condition: B
         data:
           - refId: A
             relativeTimeRange:
               from: 600
               to: 0
-            datasourceUid: ${DS_PROMETHEUS}
+            datasourceUid: PBFA97CFB590B2093
             model:
-              expr: sum(rate(http_requests_total{status_code=~"5.."}[5m])) / sum(rate(http_requests_total[5m])) > 0.05
+              expr: sum(http_requests_total{status_code=~"4..|5.."}) / sum(http_requests_total) > 0.05
               intervalMs: 1000
               maxDataPoints: 43200
               refId: A
@@ -87,38 +59,10 @@ groups:
               to: 0
             datasourceUid: __expr__
             model:
-              conditions:
-                - evaluator:
-                    params: []
-                    type: gt
-                  operator:
-                    type: and
-                  query:
-                    params: [A]
-                  reducer:
-                    params: []
-                    type: last
-                  type: query
+              expression: A
               refId: B
-          - refId: C
-            relativeTimeRange:
-              from: 600
-              to: 0
-            datasourceUid: __expr__
-            model:
-              conditions:
-                - evaluator:
-                    params: [0]
-                    type: gt
-                  operator:
-                    type: and
-                  query:
-                    params: [B]
-                  reducer:
-                    params: []
-                    type: last
-                  type: query
-              refId: C
+              type: reduce
+              reducer: last
         noDataState: NoData
         execErrState: Error
         for: 5m
